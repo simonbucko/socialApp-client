@@ -1,4 +1,4 @@
-import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM } from '../types';
+import { SET_SCREAMS, LOADING_DATA, LIKE_SCREAM, UNLIKE_SCREAM, DELETE_SCREAM, POST_SCREAM, SET_SCREAM, SUBMIT_COMMENT } from '../types';
 
 const initialState = {
     screams: [],
@@ -6,7 +6,7 @@ const initialState = {
     loading: false
 }
 
-export default function (state = initialState, action) {
+const dataReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOADING_DATA:
             return {
@@ -48,7 +48,17 @@ export default function (state = initialState, action) {
                     ...state.screams
                 ]
             }
+        case SUBMIT_COMMENT:
+            return {
+                ...state,
+                scream: {
+                    ...state.scream,
+                    comments: [action.payload, ...state.scream.comments]
+                }
+            }
         default:
             return state;
     }
 }
+
+export default dataReducer;
