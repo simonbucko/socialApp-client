@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 //components
 import Scream from "../components/scream/Scream";
@@ -9,6 +10,13 @@ import ScreamSkeleton from "../util/ScreamSkeleton";
 //redux
 import { connect } from "react-redux";
 import { getScreams } from "../redux/actions/dataActions";
+
+const styles = (theme) => ({
+  ...theme.spreadThis,
+  mainContainer: {
+    flexDirectio: "column-reverse",
+  },
+});
 
 class home extends Component {
   state = {
@@ -25,7 +33,7 @@ class home extends Component {
       <ScreamSkeleton />
     );
     return (
-      <Grid container spacing={10}>
+      <Grid className={classes.mainContainer} container spacing={10}>
         <Grid item sm={8} xs={12}>
           {recentScreamsMarkup}
         </Grid>
@@ -44,6 +52,9 @@ const mapStateToProps = (state) => ({
 home.propTypes = {
   getScreams: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, { getScreams })(home);
+export default connect(mapStateToProps, { getScreams })(
+  withStyles(styles)(home)
+);
